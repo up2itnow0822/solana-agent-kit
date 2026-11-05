@@ -5,7 +5,8 @@ import { tryAsync } from "try.rs";
 import { db } from "./db";
 import { messagesTable, usersTable } from "./db/schema";
 import { PublicKey } from "@solana/web3.js";
-import GodMode from "@solana-agent-kit/plugin-god-mode";
+import DefiPlugin from "@solana-agent-kit/plugin-defi";
+import TokenPlugin from "@solana-agent-kit/plugin-token";
 import { eq } from "drizzle-orm";
 import { generateText, type Message } from "ai";
 import { createOpenAI } from "@ai-sdk/openai";
@@ -345,7 +346,9 @@ export async function initAgentKit(walletId: string) {
     },
     process.env.RPC_URL as string,
     {}
-  ).use(GodMode);
+  )
+    .use(TokenPlugin)
+    .use(DefiPlugin);
 
   return agentKit;
 }
